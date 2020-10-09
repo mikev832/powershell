@@ -1,0 +1,32 @@
+@ECHO OFF
+ECHO Checking for system corruption
+sfc /scannow
+TIMEOUT 10 >nul
+ECHO DISM Repair in progress
+DISM /Online /Cleanup-Image /RestoreHealth
+TIMEOUT 10 >nul
+ECHO Checking and updating Windows
+wuauclt /detectnow /update now
+C:\"Program Files (x86)"\Lenovo\"System Update"\tvsu.exe /CM -search C -action INSTALL -includerebootpackages 1,3,4 -noicon -noreboot -nolicense -defaultupdate
+TIMEOUT 360 >nul
+SET /P yesno=Do you Want to Reboot this machine? [Y/N]:
+IF "%yesno%"=="Y" GOTO Confirmation
+IF "%yesno%"=="y" GOTO Confirmation
+IF "%yesno%"=="N" GOTO End
+IF "%yesno%"=="n" GOTO End
+
+:Confirmation
+
+ECHO System is going to Reboot now.
+
+Shutdown.exe /r
+
+GOTO EOF
+:End
+
+ECHO System Reboot Cancelled
+
+TIMEOUT 5>nul
+
+:EOF
+exit
