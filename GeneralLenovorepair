@@ -6,7 +6,7 @@ ECHO DISM Repair in progress
 DISM /Online /Cleanup-Image /RestoreHealth
 TIMEOUT 10 >nul
 ECHO Checking and updating Windows
-wuauclt /detectnow /update now
+wuauclt /detectnow /updatenow
 C:\"Program Files (x86)"\Lenovo\"System Update"\tvsu.exe /CM -search C -action INSTALL -includerebootpackages 1,3,4 -noicon -noreboot -nolicense -defaultupdate
 TIMEOUT 360 >nul
 SET /P yesno=Do you Want to Reboot this machine? [Y/N]:
