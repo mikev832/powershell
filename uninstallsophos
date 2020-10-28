@@ -1,0 +1,154 @@
+Start-Transcript -Path "C:\Windows\Temp\SOPHOSUninstall.log"
+New-Item -Path "C:\" -Name "Temp" -ItemType Directory -Force
+Write-Host "Stopping Sophos AutoUpdate Service"
+Stop-Service -Name "Sophos AutoUpdate Service"
+Write-Host ("Uninstalling SOPHOS Endpoint Agent - C:\Program Files\Sophos\Sophos Endpoint Agent\uninstallcli.exe")
+#$ExitCode = (Start-Process -FilePath "C:\Program Files\Sophos\Sophos Endpoint Agent\uninstallcli.exe" -Wait -Passthru -RedirectStandardOutput "C:\Temp\Uninstall_SOPHOS.txt").ExitCode
+$cliUninstallerExitCode = (Start-Process -FilePath "C:\Program Files\Sophos\Sophos Endpoint Agent\uninstallcli.exe" -WindowStyle Hidden -Wait -Passthru -RedirectStandardOutput "C:\Temp\Uninstall_SOPHOS.txt").ExitCode
+Write-Host ("Exit Code: " + $cliUninstallerExitCode)
+$SOPHOSApps = Get-WmiObject Win32_Product | where {$_.name -like "*SOPHOS*"}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -eq "Sophos Remote Management System")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -eq "Sophos Network Threat Protection")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        Write-Host $msiArgs
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -eq "Sophos Client Firewall" -or $App.Name -eq "Sophos Endpoint Firewall")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -eq "Sophos Anti-Virus")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos AutoUpdate*")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos Diagnostic Utility")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos Exploit Prevention")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos Clean")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos Patch Agent")
+    {
+        $LogName = $App.Name.Replace(" ","")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v C:\Temp\Uninstall_" + $LogName + "10_Log.txt")
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos Endpoint Defense")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos Endpoint Self Help")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos Health")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+foreach ($App in $SOPHOSApps)
+{
+    if ($App.Name -like "Sophos Endpoint")
+    {
+        $LogName = ("C:\Temp\Uninstall_" + $App.Name.Replace(" ","") + "10_Log.txt")
+        $msiArgs = ("/X" + $App.IdentifyingNumber + " /qn REBOOT=SUPPRESS /L*v " + $LogName)
+        Write-Host ("Uninstalling " + $App.Name + " - " + $App.IdentifyingNumber + " - " + $LogName)
+        $ExitCode = (Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -Passthru).ExitCode
+        Write-Host ("Exit Code: " + $ExitCode)
+    }
+}
+Stop-Transcript
+If ($cliUninstallerExitCode -eq 0){"SOPHOS cli uninstaller complete" | Out-File -FilePath C:\Windows\Temp\SOPHOScliUninstallGood.log}
