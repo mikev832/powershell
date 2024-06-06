@@ -1,6 +1,6 @@
 # Define printer name and printer path
-$printerName = "Mobilab-Printer"
-$printerPath = "ipp://192.168.1.8"
+$printerName = "Printername"
+$printerPath = "ipp://ipaddress"
 
 # Check if the printer exists
 $printer = Get-Printer -Name $printerName -ErrorAction SilentlyContinue
