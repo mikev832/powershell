@@ -1,18 +1,1 @@
-Add-Type -AssemblyName PresentationFramework
 
-$OS = Get-CimInstance -ClassName Win32_OperatingSystem
-$Uptime = (Get-Date) - $OS.LastBootUpTime
-$UptimeDays = $Uptime.Days
-
-# Only show message if system has been up for more than 30 days
-if ($UptimeDays -le 30) {
-    exit 0
-}
-
-# Configure message box text to match company messaging
-$Title = "Windows Restart Manager"
-$Message = "Your computer hasn't been rebooted in $UptimeDays days.`nPlease save all progress and restart your machine."
-$ButtonType = [System.Windows.MessageBoxButton]::OK
-$IconType = [System.Windows.MessageBoxImage]::Warning
-
-[System.Windows.MessageBox]::Show($Message, $Title, $ButtonType, $IconType)
