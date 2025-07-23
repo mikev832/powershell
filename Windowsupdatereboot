@@ -19,7 +19,3 @@ $IconType = [System.Windows.MessageBoxImage]::Warning
 
 [System.Windows.MessageBox]::Show($Message, $Title, $ButtonType, $IconType)
 
-# Reboot if user clicked OK
-#if ($result -eq 'OK') {
-#    Restart-Computer -Force
-#}
