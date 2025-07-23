@@ -11,9 +11,15 @@ if ($UptimeDays -le 30) {
 
 # Change the text below to match company messaging standards.
 $Title = "Windows Restart Manager"
-$Message = "Your computer hasn't been rebooted in $UptimeDays days.`nPlease save all progress and restart your machine."
+$Message = "Your computer hasn't been rebooted in $UptimeDays days. + `nPlease save all progress and restart your machine." +
+           "**By clicking OK, you agree to restart now.**"
 $ButtonType = [System.Windows.MessageBoxButton]::OK
 $IconType = [System.Windows.MessageBoxImage]::Warning
 
 
 [System.Windows.MessageBox]::Show($Message, $Title, $ButtonType, $IconType)
+
+# Reboot if user clicked OK
+#if ($result -eq 'OK') {
+#    Restart-Computer -Force
+#}
