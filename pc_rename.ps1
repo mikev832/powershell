@@ -1,24 +1,36 @@
 # Get current computer name
 $currentName = $env:COMPUTERNAME
 
-# Get serial number using CIM
+# Get BIOS serial
 $serial = (Get-CimInstance -ClassName Win32_BIOS).SerialNumber
-
-# Clean serial (remove spaces just in case)
 $serial = $serial -replace '\s',''
 
-# Max NetBIOS length = 15
-$maxSerialLength = 11
-$shortSerial = $serial.Substring(0, [Math]::Min($serial.Length, $maxSerialLength))
+# Known bad / placeholder serial values
+$invalidSerials = @(
+    "",
+    "To Be Filled By O.E.M.",
+    "Default string",
+    "None",
+    "System Serial Number"
+)
 
-# Build new name
+# If serial is invalid, fall back to UUID
+if ($invalidSerials -contains $serial -or $serial.Length -lt 5) {
+    $uuid = (Get-CimInstance -ClassName Win32_ComputerSystemProduct).UUID
+    $uuid = $uuid -replace '[^A-Za-z0-9]', ''
+    $serial = $uuid
+}
+
+# Enforce 15-char NetBIOS limit
+$shortSerial = $serial.Substring(0, [Math]::Min(11, $serial.Length))
+
 $newName = "AKO-$shortSerial"
 
-# Rename only if needed
 if ($currentName -ne $newName) {
     Write-Output "Renaming computer from $currentName to $newName"
     Rename-Computer -NewName $newName -Force
+    Write-Output "Rename complete. Reboot required to apply."
 }
 else {
-    Write-Output "Computer name already correct: $currentName"
+    Write-Output "Computer name already correct."
 }
